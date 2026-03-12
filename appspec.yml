@@ -1,1 +1,34 @@
 #appspec.yml
+
+version: 0.0
+os: linux
+
+files:
+  - source: test-app
+    destination: /home/ubuntu/aws-learning/test-app
+
+permissions:
+  - object: /home/ubuntu/aws-learning
+    owner: ubuntu
+    group: ubuntu
+    mode: 755
+    type:
+      - directory
+  - object: /home/ubuntu/aws-learning/test-app
+    owner: ubuntu
+    group: ubuntu
+    mode: 755
+    type:
+      - directory
+      - file
+
+hooks:
+  AfterInstall:
+    - location: scripts/install_app.sh
+      timeout: 300
+      runas: ubuntu
+
+  ApplicationStart:
+    - location: scripts/restart_app.sh
+      timeout: 120
+      runas: ubuntu
